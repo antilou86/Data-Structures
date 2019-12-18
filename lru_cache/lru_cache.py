@@ -15,34 +15,7 @@ class LRUCache:
         self.limit = limit
         self.current = 0
         self.linked = DoublyLinkedList()
-        #it should look like a dictionary of dictionaries, in theory.
         self.storage = {}
-        
-    # def make_cache(self, linked=self.linked):
-    #     #for each item in the DoublyLinkedList we want to add the item to the storage dictionary
-    #     current = linked.head
-    #     i=1
-    #     #starting at the head node, loop through all items
-    #     while current is not None:
-    #         #if below the limit, just add the item to the cache.
-    #         if i <= (self.limit+1):
-    #             #add the node value and a time counter to each cache entry
-    #             self.storage["item"+str(i)]= dict(node=current.value, time_counter=i)
-    #             current = current.next
-    #             i += 1
-    #         elif i > self.limit:
-    #             #find the cache item with the lowest time_counter
-    #             oldest_node = self.storage["item1"]
-    #             for x in self.storage:
-    #                 if x.time_counter < oldest_node.time_counter:
-    #                     oldest_node = x
-    #             #once located, replace the oldest_node values with the current node ones.
-    #             oldest_node.node = current.value
-    #             oldest_node.time_counter = i
-    #             #update i and move to the next node
-    #             i += 1
-    #             current = current.next
-        
 
     """
     Retrieves the value associated with the given key. Also
@@ -53,13 +26,6 @@ class LRUCache:
     """
     def get(self, key):
         if key in self.storage:
-            # #move the requested item to the end of the linked list
-            # current = self.linked.head
-            # while self.storage[key].node is not current.value:
-            #     current = current.next
-            # self.linked.move_to_end(current) 
-            # #rebuild the cache.
-            # self.make_cache()
             self.linked.move_to_front(self.storage.get(key))
             return self.linked.head.value[1]
         else:
@@ -89,13 +55,3 @@ class LRUCache:
                 self.storage.pop(self.linked.remove_from_tail()[0])
             else:
                 self.current += 1
-        
-        # #if the given key exists, it overwrites the value, and moves it to the end of the cache
-        # if self.storage[key] is not None:
-        #     self.storage[key].node = value
-        #     self.get(self.storage[key])
-        # #if it doesnt exist, it creates a new node in the linked list and rebuilds the cache appropriately.
-        # else:
-        #     self.linked.add_to_tail(value)
-        #     self.make_cache()
-        
